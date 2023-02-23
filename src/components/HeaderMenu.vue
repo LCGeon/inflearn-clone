@@ -39,6 +39,16 @@
       </ul>
     </li>
   </ul>
+  <div>
+    <input type="text" class="header__search-box" /><button
+      class="header__search-Btn"
+    >
+      <i class="bi-search"></i>
+    </button>
+  </div>
+  <div>
+    <button class="header__dash-bord">대시보드</button>
+  </div>
 </template>
 
 <script>

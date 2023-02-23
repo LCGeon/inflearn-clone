@@ -1,13 +1,34 @@
 import { createStore } from "vuex";
-
-const config = "https://ifh.cc/g/";
+import mutations from "./mutations";
+import getters from "./getters";
+import actions from "./actions";
 
 export default createStore({
   state: {
-    urlConfig: config,
+    userState: {
+      account: {
+        id: null,
+        name: "",
+        type: "",
+      },
+      form: {
+        loginId: "",
+        loginPw: "",
+      },
+    },
+    event: {
+      coupon: 0,
+      point: 0,
+    },
+    pwdValue: true,
+    pwd: "password",
+    ismodal: false,
+    isPersonModal: false,
+    userImg: "https://cdn.inflearn.com/public/main/profile/default_profile.png",
+    urlConfig: "https://ifh.cc/g/",
   },
-  getters: {},
-  mutations: {},
-  actions: {},
+  getters,
+  mutations,
+  actions,
   modules: {},
 });
