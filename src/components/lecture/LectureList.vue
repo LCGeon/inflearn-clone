@@ -1,33 +1,27 @@
 <template>
-  <div id="box" v-for="lectureItem in data" :key="lectureItem">
-    <img class="lecture__box-img" :src="lectureItem.image_url" />
-    <h3 class="heading">{{ lectureItem.title }}</h3>
-    <div class="data">
-      <span class="date">₩ {{ lectureItem.price }} </span>
-    </div>
-    <p class="texts">
-      {{ lectureItem.context }}
-    </p>
+  <div id="box" v-for="lectureItem in lectureList" :key="lectureItem">
+    <router-link :to="`/enrolment/${lectureItem.id}`">
+      <img class="lecture__box-img" :src="lectureItem.image_url" />
+      <h3>{{ lectureItem.title }}</h3>
+      <div>
+        <span>₩ {{ lectureItem.price }} </span>
+      </div>
+      <p>
+        {{ lectureItem.context }}
+      </p>
+    </router-link>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
-  setup() {},
-  data() {
-    return {
-      data: [],
-    };
+  computed: {
+    ...mapState(["lectureList"]),
   },
   mounted() {
-    axios.get("/api/lecture/list").then((res) => {
-      this.data = res.data.lectureList;
-    });
-  },
-  methods: {
-    innerLecture() {},
+    this.$store.commit("getLectureList");
   },
 };
 </script>

@@ -14,32 +14,6 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/lectureView.vue"),
   },
   {
-    path: "/lodmap",
-    name: "lodmap",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/lodmapView.vue"),
-  },
-  {
-    path: "/mentoring",
-    name: "mentoring",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/mentoringView.vue"),
-  },
-  {
-    path: "/community",
-    name: "community",
-
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/communityView.vue"),
-  },
-  {
-    path: "/inflearn",
-    name: "inflearn",
-
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/inflearnView.vue"),
-  },
-  {
     path: "/signup",
     name: "signup",
 
@@ -52,6 +26,13 @@ const routes = [
 
     component: () =>
       import(/* webpackChunkName: "signup" */ "../views/uploadMainView.vue"),
+  },
+  {
+    path: "/enrolment/:id",
+    name: "enrolment",
+
+    component: () =>
+      import(/* webpackChunkName: "enrolment" */ "../views/enrolmentView.vue"),
   },
 ];
 

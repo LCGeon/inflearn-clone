@@ -13,12 +13,14 @@
       </button>
     </label>
   </div>
+  <lectureList></lectureList>
 </template>
 
 <script>
 import Carousel from "../components/carousel/Carousel.vue";
+import lectureList from "../components/lecture/LectureList.vue";
 export default {
-  components: { Carousel },
+  components: { Carousel, lectureList },
   data() {
     return {
       slides: [

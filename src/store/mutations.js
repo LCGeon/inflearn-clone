@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import router from "@/router/index.js";
 export default {
   logout() {
     axios.delete("/api/account").then(() => {
@@ -18,6 +18,7 @@ export default {
       .then((res) => {
         this.state.userState.account = res.data;
         this.state.ismodal = false;
+        router.push({ name: "home" });
       })
       .catch(() => {
         alert("올바른 정보가 아닙니다.");
@@ -36,5 +37,30 @@ export default {
   },
   personModalOut() {
     this.state.isPersonModal = false;
+  },
+  // loginCheck() {
+  //   if (this.state.userState.account.id === null) {
+  //     alert("로그인이 필요합니다.");
+  //     router.push({ name: "home" });
+  //     this.state.ismodal = true;
+  //   }
+  // },
+  getLectureList() {
+    axios.get("/api/lecture/list").then((res) => {
+      this.state.lectureList = res.data.lectureList;
+    });
+  },
+  getEnrolment(state, id) {
+    axios.get("/api/lecture/list").then((res) => {
+      var filterId = res.data.lectureList.filter((e) => {
+        return e.id == id;
+      });
+      state.enrolment = filterId[0];
+    });
+  },
+  getLoginInfo() {
+    axios.get("/api/account").then((res) => {
+      this.state.userState.account = res.data;
+    });
   },
 };

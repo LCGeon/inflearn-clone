@@ -3,12 +3,12 @@
     <h2>회원 가입</h2>
     <h3>인프런에서 가치를 높이세요</h3>
 
-    <p class="sign__p-email">이메일</p>
+    <p class="sign__p-email">아이디</p>
 
     <input
       class="sign__input"
       type="text"
-      placeholder="example@inflab.com"
+      placeholder="아이디"
       maxlength="32"
       v-model="signConst.account.email"
     />

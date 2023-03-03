@@ -12,9 +12,9 @@
 
 <script>
 export default {
-  emits: ['switch'],
-  props: ['total', 'currentIndex']
-}
+  emits: ["switch"],
+  props: ["total", "currentIndex"],
+};
 </script>
 
 <style scoped>
@@ -23,7 +23,7 @@ export default {
   transform: translateX(-50%);
   left: 50%;
   bottom: 1.5em;
-  z-index: 4;
+  z-index: 9997;
 }
 .carousel-mark-item {
   width: 15px;

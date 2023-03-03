@@ -1,11 +1,8 @@
 <template>
-  <header>
-    <nav>
-      <HeaderMenu></HeaderMenu>
-      <HeaderBtn></HeaderBtn>
-    </nav>
-    <LoginModal></LoginModal>
-  </header>
+  <nav>
+    <MainHeader></MainHeader>
+  </nav>
+  <LoginModal></LoginModal>
   <main>
     <router-view />
   </main>
@@ -14,18 +11,14 @@
   </footer>
 </template>
 <script>
-import axios from "axios";
-import HeaderMenu from "./components/HeaderMenu.vue";
-import HeaderBtn from "./components/HeaderBtn.vue";
+import MainHeader from "./components/header/MainHeader.vue";
 import LoginModal from "./components/modal/LoginModal.vue";
 import MainFooter from "./components/MainFooter.vue";
 
 export default {
-  components: { HeaderMenu, HeaderBtn, MainFooter, LoginModal },
-  setup() {
-    axios.get("/api/account").then((res) => {
-      this.$store.state.userState.account = res.data;
-    });
+  components: { MainHeader, MainFooter, LoginModal },
+  mounted() {
+    this.$store.commit("getLoginInfo");
   },
 };
 </script>

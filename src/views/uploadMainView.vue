@@ -55,15 +55,22 @@
       </textarea>
       <br />
     </div>
+    <LoadingSpinner :loading="loadingStatus"></LoadingSpinner>
     <button class="upload__btn" @click="uploadVideo()">업로드</button>
   </div>
 </template>
 <script>
 import axios from "axios";
 import { storage } from "../firebase";
+import { mapState } from "vuex";
+import LoadingSpinner from "../components/common/LoadingSpinner.vue";
 export default {
-  setup() {},
-  computed: {},
+  components: {
+    LoadingSpinner,
+  },
+  computed: {
+    ...mapState(["loadingStatus"]),
+  },
   data() {
     return {
       lectureVideo: null,
@@ -104,14 +111,14 @@ export default {
       const storageImgRoad = storageRef.child("img/" + fileImg.name);
       const upload = storageRoad.put(file);
       const uploadImg = storageImgRoad.put(fileImg);
-
+      this.$store.state.loadingStatus = true;
       upload.on(
         "state_changed",
 
         null,
 
         (error) => {
-          console.error("실패사유는", error);
+          console.error(error);
         },
 
         () => {
@@ -121,7 +128,7 @@ export default {
             null,
 
             (error) => {
-              console.error("실패사", error);
+              console.error(error);
             },
 
             () => {
@@ -141,7 +148,7 @@ export default {
                   .then((res) => {
                     this.account = res.data;
                     alert("업로드에 성공하였습니다.");
-
+                    this.$store.state.loadingStatus = false;
                     this.$router.replace("/");
                   })
                   .catch(() => {
@@ -155,29 +162,6 @@ export default {
     },
   },
 };
-
-// upload.snapshot.ref.getDownloadURL().then((url) => {
-//   alert("업로드에 성공하였습니다.");
-//   const args = {
-//     videoUrl: url,
-//     title: this.account.title,
-//     context: this.account.detail,
-//     price: this.account.price,
-//   };
-//   axios
-//     .post("/api/lecture", args)
-//     .then((res) => {
-//       this.account = res.data;
-//     })
-//     .catch(() => {
-//       alert("error");
-//     });
-//           });
-//         }
-//       );
-//     },
-//   },
-// };
 </script>
 <style scoped>
 .upload__video-preview,

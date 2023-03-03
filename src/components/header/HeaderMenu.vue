@@ -18,10 +18,10 @@
       </ul>
     </li>
 
-    <li><router-link to="/lodmap">로드맵</router-link></li>
-    <li><router-link to="/mentoring">멘토링</router-link></li>
+    <li>로드맵</li>
+    <li>멘토링</li>
     <li class="header__community">
-      <router-link to="/community">커뮤니티</router-link>
+      커뮤니티
       <ul class="header__community-ul">
         <li><a>질문 & 답변</a></li>
         <li><a>자유 주제</a></li>
@@ -30,7 +30,7 @@
       </ul>
     </li>
     <li class="header__inf">
-      <router-link to="/inflearn">인프런</router-link>
+      인프런
       <ul class="header__inf-ul">
         <li><a>수강평</a></li>
         <li><a>멘토링 후기</a></li>
@@ -55,7 +55,7 @@
 export default {
   data() {
     return {
-      logo: require("../assets/inflearn.png"),
+      logo: require("../../assets/inflearn.png"),
     };
   },
   methods: {
@@ -65,5 +65,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

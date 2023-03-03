@@ -1,5 +1,5 @@
 <template>
-  <div class="header__icon" id="header__icon" v-if="userState.account.id">
+  <div v-if="userState.account.id">
     <button class="header__icon-play">
       <i class="bi-play"></i>
     </button>
@@ -11,7 +11,7 @@
     </button>
     <UserModal></UserModal>
   </div>
-  <div class="header__login" v-else>
+  <div v-else>
     <button class="header__login-btn" @click="this.$store.state.ismodal = true">
       로그인
     </button>
@@ -23,7 +23,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import UserModal from "./modal/UserModal.vue";
+import UserModal from "../modal/UserModal.vue";
 export default {
   computed: {
     ...mapState(["userState"]),
