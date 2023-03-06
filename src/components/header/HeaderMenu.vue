@@ -17,7 +17,6 @@
         <li><a>교양</a></li>
       </ul>
     </li>
-
     <li>로드맵</li>
     <li>멘토링</li>
     <li class="header__community">

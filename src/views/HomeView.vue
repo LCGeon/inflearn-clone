@@ -1,13 +1,14 @@
 <template>
   <!-- 슬라이드 배너 -->
   <Carousel :slides="slides"></Carousel>
-  <div class="Home__Writing">배우고, 나누고, 성장하세요</div>
+  <div class="Home__Writing"><h1>배우고, 나누고, 성장하세요</h1></div>
   <div class="Home__Writing">
     <label>
       <input
         type="text"
         class="Home__search-Box"
         placeholder="배우고 싶은 지식을 입력해보세요."
+        style="font-size: 15px"
       /><button class="Home__search-Btn">
         <i class="bi-search"></i>
       </button>
@@ -43,7 +44,7 @@ export default {
 .Home__Writing {
   display: flex;
   justify-content: center;
-  font-size: 22px;
+  font-size: 17px;
   padding-bottom: 25px;
 }
 .Home__search-Box {

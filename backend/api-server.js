@@ -80,14 +80,20 @@ app.delete("/api/account", (req, res) => {
 app.post("/api/lecture", (req, res) => {
   const body = req.body;
   console.log(body);
-  if (!body?.title && !body?.context && !body?.videoUrl && !body?.price) {
+  if (
+    !body?.title &&
+    !body?.context &&
+    !body?.videoUrl &&
+    !body?.price &&
+    !body?.user
+  ) {
     return res.status(400).json({ message: "제대로 보내세오" });
   }
 
-  const { title, context, videoUrl, price, imgUrl } = body;
+  const { title, context, videoUrl, price, imgUrl, user } = body;
 
   dbController
-    .insertLecture(title, context, videoUrl, price, imgUrl)
+    .insertLecture(title, context, videoUrl, price, imgUrl, user)
     .then((_) => {
       res.status(200).json({ isUploaded: true });
     })

@@ -63,4 +63,6 @@ export default {
       this.state.userState.account = res.data;
     });
   },
+
+  filterPrice() {},
 };

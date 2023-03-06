@@ -92,6 +92,7 @@ export default {
       },
     };
   },
+
   methods: {
     previewVideo() {
       const file = this.$refs.videoInput.files[0];
@@ -142,6 +143,7 @@ export default {
                   title: this.account.title,
                   context: this.account.detail,
                   price: this.account.price,
+                  user: this.$store.state.userState.account.id,
                 };
                 axios
                   .post("/api/lecture", args)

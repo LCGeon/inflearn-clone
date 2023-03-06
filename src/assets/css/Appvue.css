@@ -14,7 +14,7 @@ ul {
 }
 a {
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
   color: black;
 }
 
@@ -37,8 +37,8 @@ nav {
 .white-bg {
   padding: 24px;
   margin: auto;
-  width: 360px;
-  height: 432px;
+  width: 400px;
+  height: 482px;
   background-color: #fff;
   border-radius: 6px;
   z-index: 1;
@@ -178,9 +178,6 @@ nav {
   font-weight: bold;
 }
 .user__event {
-  /* position: relative;
-  justify-content: center; */
-  /* text-align: center; */
   font-weight: 400;
   font-size: 14px;
   padding-right: 20px;

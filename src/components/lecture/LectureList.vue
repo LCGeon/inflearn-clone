@@ -27,9 +27,6 @@ export default {
 </script>
 
 <style scoped>
-.lecture__list {
-  margin: auto;
-}
 #box {
   display: inline-block;
   width: 300px;
