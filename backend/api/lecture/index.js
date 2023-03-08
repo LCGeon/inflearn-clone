@@ -16,7 +16,7 @@ app.post('/', async (req, res) => {
         return res.status(400).json({ message: '제대로 보내세오' });
     }
 
-    const { title, context, videoUrl: video_url, price, imageUrl: image_url, user } = body;
+    const { title, context, videoUrl: video_url, price, imgUrl: image_url, user } = body;
 
     try {
         await knex('lecuture').insert({ title, context, video_url, price, image_url, user });
