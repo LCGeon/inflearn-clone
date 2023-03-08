@@ -59,7 +59,6 @@ app.post("/api/account", (req, res) => {
 app.post("/api/signup", (req, res) => {
   const body = req.body;
   const { signId, signPw, signType } = body;
-  console.log(signType);
   dbController
     .insertUser(signId, signPw, signType)
     .then((_) => {
@@ -79,7 +78,6 @@ app.delete("/api/account", (req, res) => {
 
 app.post("/api/lecture", (req, res) => {
   const body = req.body;
-  console.log(body);
   if (
     !body?.title &&
     !body?.context &&
@@ -108,6 +106,37 @@ app.get("/api/lecture/list", (req, res) => {
     .getLectureList()
     .then((lectureList) => {
       res.status(200).json({ lectureList });
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+app.post("/api/enrolment", (req, res) => {
+  const body = req.body;
+  if (!body?.user_id && !body?.lecture_id) {
+    return res.status(400).json({ message: "제대로 보내세오" });
+  }
+
+  const { user_id, lecture_id } = body;
+
+  dbController
+    .addEnrolment(user_id, lecture_id)
+    .then((_) => {
+      res.send("수강신청 완료");
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log(body);
+      return res.status(500).json(error);
+    });
+});
+
+app.get("/api/enrolment/list", (req, res) => {
+  dbController
+    .getUserLectureList()
+    .then((_) => {
+      res.send("asdasdsad");
     })
     .catch((error) => {
       res.status(500).json(error);

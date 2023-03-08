@@ -36,7 +36,9 @@
           <br />
         </div>
         <div class="floating-btn">
-          <button class="enrolment-btn">수강신청 하기</button><br />
+          <button class="enrolment-btn" @click="addEnrolment">
+            수강신청 하기</button
+          ><br />
           <button class="cart-btn" @click="filterPrice">바구니에 담기</button>
         </div>
         <div class="floating-info">
@@ -57,6 +59,7 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -72,7 +75,7 @@ export default {
   },
   mounted() {
     this.$store.commit("getEnrolment", this.$route.params.id);
-    this.$store.commit("filterPrice");
+    console.log(this.$store.state.userState.idForm);
     // this.$store.commit("loginCheck");
     this.topPos = this.$refs.floating.getBoundingClientRect().top;
   },
@@ -85,6 +88,24 @@ export default {
           this.accountInfoStyle.top = currentPos - this.topPos + 30 + "px";
         });
       }
+    },
+
+    addEnrolment() {
+      const args = {
+        user_id: this.$store.state.userState.account.id,
+        lecture_id: this.$route.params.id,
+      };
+      axios
+        .post("/api/enrolment", args)
+        .then((res) => {
+          this.$store.state.userState.idForm = res.data;
+          alert("수강 신청이 완료되었습니다.");
+          console.log(this.$store.state.userState.idForm);
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(this.$store.state.userState.idForm);
+        });
     },
   },
 };

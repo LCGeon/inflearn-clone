@@ -64,5 +64,21 @@ export default {
     });
   },
 
-  filterPrice() {},
+  addEnrolment(state, id) {
+    const args = {
+      user_id: state.userState.account.id,
+      lecture_id: id,
+    };
+    axios
+      .post("/api/enrolment", args)
+      .then((res) => {
+        state.userState.idForm = res.data;
+        console.log("들어감");
+        console.log(res.data);
+      })
+      .catch(() => {
+        console.log(state.userState.account.id, id);
+        console.log(state.userState.idForm);
+      });
+  },
 };

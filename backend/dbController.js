@@ -80,10 +80,11 @@ module.exports.getUserLectureList = (userId) => {
     db.all(
       `select lecture_id as lectureId
         from student_courses
-        where user_id = ${userId};`,
+        where user_id ="${userId}";`,
       [],
       (err, rows) => {
         if (err) {
+          console.log(err);
           reject("DB error");
         }
         resolve(rows);
@@ -92,21 +93,44 @@ module.exports.getUserLectureList = (userId) => {
   });
 };
 
-module.exports.addEnrolment = (userId, lectureId) => {
+module.exports.addEnrolment = (user_id, lecture_id) => {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO student_courses (user_id, lecture_id)
-        VALUES (${userId}, ${lectureId});`,
+      `INSERT INTO student_courses(user_id, lecture_id)
+        VALUES("${user_id}","${lecture_id}");`,
       [],
       (err) => {
         if (err) {
+          console.log(err);
           reject("DB error");
         }
 
-        this.getUserLectureList(userId).then((lectureList) => {
-          resolve(lectureList);
-        });
+        this.getUserLectureList(user_id)
+          .then((lectureList) => {
+            resolve(lectureList);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     );
   });
 };
+
+// module.exports.addEnrolment = (userId, lectureId) => {
+//   return new Promise((resolve, reject) => {
+//     db.run(
+//       `INSERT INTO student_courses(user_id, lecture_id)
+//          VALUES("${userId}", "${lectureId}");`,
+//       [],
+//       (err) => {
+//         if (err) {
+//           console.log(err);
+//           console.log(userId, lectureId);
+//           reject("DB error");
+//         }
+//         resolve(true);
+//       }
+//     );
+//   });
+// };
