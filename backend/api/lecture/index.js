@@ -19,7 +19,7 @@ app.post('/', async (req, res) => {
     const { title, context, videoUrl: video_url, price, imgUrl: image_url, user } = body;
 
     try {
-        await knex('lecuture').insert({ title, context, video_url, price, image_url, user });
+        await knex('lecture').insert({ title, context, video_url, price, image_url, user });
         res.status(200).json({ isUploaded: true });
     } catch (err) {
         res.status(500).json({ message: '통신 오류' });
