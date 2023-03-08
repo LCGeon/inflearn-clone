@@ -33,9 +33,7 @@
               v-if="userState.account.type === 1"
               class="user__registration"
             >
-              <router-link to="/inflearn"
-                ><i class="bi bi-play-circle"></i>이어서 학습하기</router-link
-              >
+              <i class="bi bi-play-circle"></i>이어서 학습하기
             </button>
             <button v-if="userState.account.type === 2" class="user__upload">
               <router-link to="/upload"
@@ -45,7 +43,12 @@
             </button>
           </li>
           <li><i class="bi bi-pie-chart"></i>대시보드</li>
-          <li><i class="bi bi-journals"></i>내 학습</li>
+          <li>
+            <i class="bi bi-journals"></i
+            ><router-link :to="`/my-courses/${userState.account.id}`"
+              >내 학습</router-link
+            >
+          </li>
           <li><i class="bi bi-pencil-square"></i>강의 노트</li>
           <li><i class="bi bi-lightbulb"></i>멘토링</li>
           <li><i class="bi bi-chat-left-text"></i>작성한 게시글</li>

@@ -7,12 +7,7 @@
         <div class="lecture-master">
           <i class="bi bi-person"></i> <span> {{ enrolment.user }} </span>
         </div>
-        <div class="star-ratings">
-          <div class="star-ratings-fill space-x-2 text-lg">
-            <span>★</span><span>★</span><span>★</span><span>★</span
-            ><span>★</span>
-          </div>
-        </div>
+        <StarRatings></StarRatings>
         <span class="star-ratings-number">(5.0)</span>
       </div>
     </div>
@@ -36,10 +31,16 @@
           <br />
         </div>
         <div class="floating-btn">
-          <button class="enrolment-btn" @click="addEnrolment">
-            수강신청 하기</button
+          <button
+            class="enrolment-btn"
+            @click="addEnrolment"
+            :disabled="isEnrolmented"
+            :class="{ registered: isEnrolmented }"
+          >
+            <p v-if="!isEnrolmented">수강신청 하기</p>
+            <p v-else>이미 등록된 강의입니다.</p></button
           ><br />
-          <button class="cart-btn" @click="filterPrice">바구니에 담기</button>
+          <button class="cart-btn">바구니에 담기</button>
         </div>
         <div class="floating-info">
           <ul>
@@ -60,9 +61,11 @@
 <script>
 import { mapState } from "vuex";
 import axios from "axios";
+import StarRatings from "../components/common/StarRatings.vue";
 export default {
   data() {
     return {
+      isEnrolmented: false,
       topPos: 0,
       accountInfoStyle: {
         top: 0,
@@ -70,13 +73,14 @@ export default {
       },
     };
   },
+  components: { StarRatings },
   computed: {
     ...mapState(["enrolment"]),
   },
   mounted() {
     this.$store.commit("getEnrolment", this.$route.params.id);
     console.log(this.$store.state.userState.idForm);
-    // this.$store.commit("loginCheck");
+    this.$store.commit("loginCheck");
     this.topPos = this.$refs.floating.getBoundingClientRect().top;
   },
   methods: {
@@ -147,34 +151,7 @@ export default {
 .lecture {
   margin-top: 70px;
 }
-.star-ratings {
-  color: #aaa9a9;
-  position: relative;
-  unicode-bidi: bidi-override;
-  width: max-content;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke-width: 0px;
-  -webkit-text-stroke-color: #2b2a29;
-}
-.star-ratings-fill {
-  color: #fff58c;
-  padding: 0;
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  -webkit-text-fill-color: gold;
-}
-.star-ratings-base {
-  z-index: 0;
-  padding: 0;
-}
-.star-ratings-number {
-  color: white;
-  margin-left: 83px;
-}
+
 .info-container {
   width: 700px;
   white-space: normal;
@@ -187,6 +164,11 @@ export default {
   height: 380px;
   width: 400px;
 }
+.star-ratings-number {
+  color: white;
+  margin-left: 83px;
+}
+
 .enrolment-btn,
 .cart-btn {
   border-radius: 4px;
@@ -223,5 +205,8 @@ ul {
 }
 .lecture-price {
   text-align: left;
+}
+.registered {
+  background-color: #909090;
 }
 </style>

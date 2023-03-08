@@ -38,18 +38,19 @@ export default {
   personModalOut() {
     this.state.isPersonModal = false;
   },
-  // loginCheck() {
-  //   if (this.state.userState.account.id === null) {
-  //     alert("로그인이 필요합니다.");
-  //     router.push({ name: "home" });
-  //     this.state.ismodal = true;
-  //   }
-  // },
+  loginCheck() {
+    if (this.state.userState.account.id === null) {
+      alert("로그인이 필요합니다.");
+      router.push({ name: "home" });
+      this.state.ismodal = true;
+    }
+  },
   getLectureList() {
     axios.get("/api/lecture/list").then((res) => {
       this.state.lectureList = res.data.lectureList;
     });
   },
+
   getEnrolment(state, id) {
     axios.get("/api/lecture/list").then((res) => {
       var filterId = res.data.lectureList.filter((e) => {
@@ -58,6 +59,7 @@ export default {
       state.enrolment = filterId[0];
     });
   },
+
   getLoginInfo() {
     axios.get("/api/account").then((res) => {
       this.state.userState.account = res.data;
@@ -80,5 +82,8 @@ export default {
         console.log(state.userState.account.id, id);
         console.log(state.userState.idForm);
       });
+  },
+  setHoveredBox(state, lectureItem) {
+    state.lectureContext = lectureItem;
   },
 };

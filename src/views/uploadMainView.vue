@@ -11,6 +11,7 @@
         accept="video/mp4,video/mkv, video/x-m4v,video/*"
         ref="videoInput"
         @change="previewVideo()"
+        multiple
       />
       <h3><i class="bi bi-camera-reels"></i>영상 미리보기</h3>
       <video
@@ -20,10 +21,12 @@
         controls
         loop
       ></video>
+      <div><button class="upload__btn" @click="addRow">추가하기</button></div>
+      <uploadTable></uploadTable>
     </div>
     <div class="upload__thumbnail">
       <h2 class="upload__sentence">
-        <i class="bi bi-card-image"></i>영상 썸네일 업로드
+        <i class="bi bi-card-image"></i>강의 썸네일 업로드
       </h2>
       <input
         type="file"
@@ -64,16 +67,17 @@ import axios from "axios";
 import { storage } from "../firebase";
 import { mapState } from "vuex";
 import LoadingSpinner from "../components/common/LoadingSpinner.vue";
+import uploadTable from "../components/upload/uploadTable.vue";
 export default {
   components: {
     LoadingSpinner,
+    uploadTable,
   },
   computed: {
     ...mapState(["loadingStatus"]),
   },
   data() {
     return {
-      lectureVideo: null,
       selectVideo: "",
       selectImg: "",
       account: {
@@ -89,6 +93,11 @@ export default {
         VideoDetail: "",
         VideoPrice: "",
         imgThumbnail: "",
+      },
+      videoTable: {
+        num: 0,
+        title: "",
+        length: "",
       },
     };
   },
