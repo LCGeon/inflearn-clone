@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const jwtSecretKey = process.env.jWT_SECRET_KEY || '';
 
 const knex = require('knex')({
     client: 'sqlite3',
@@ -15,13 +20,13 @@ app.get('/', (req, res) => {
         res.status(401);
     }
 
-    jwt.verify(req.cookies.token, 'abc1234', (err, decoded) => {
-        if (err) {
-            return res.status(401);
-        }
-
+    try {
+        const decoded = jwt.verify(req.cookies.token, jwtSecretKey);
         res.status(200).json(decoded);
-    });
+    } catch (err) {
+        return res.status(401);
+    }
+
 });
 
 app.post('/', async (req, res) => {
@@ -29,7 +34,10 @@ app.post('/', async (req, res) => {
     const { loginId, loginPw } = body;
 
     try {
-        const member = await knex('member').select('*').where({ id: loginId, password: loginPw }).first();
+        const member = await knex('member')
+            .select('*')
+            .where({ id: loginId, password: loginPw })
+            .first();
 
         if (!member) {
             return res.status(401).json({ message: '없는 회원입니다.' });
@@ -46,7 +54,7 @@ app.post('/', async (req, res) => {
                 name: member.name,
                 type: member.type,
             },
-            'abc1234',
+            jwtSecretKey,
             {
                 expiresIn: '30m',
                 issuer: 'corjs',
@@ -72,9 +80,9 @@ app.post('../signup', async (req, res) => {
     }
 });
 
-app.delete("/", (req, res) => {
+app.delete('/', (req, res) => {
     if (req.cookies && req.cookies.token) {
-        res.clearCookie("token");
+        res.clearCookie('token');
     }
 
     res.sendStatus(200);
