@@ -34,10 +34,10 @@
           <button
             class="enrolment-btn"
             @click="addEnrolment"
-            :disabled="isEnrolmented"
-            :class="{ registered: isEnrolmented }"
+            :disabled="enrolment.isEnrolled"
+            :class="{ registered: enrolment.isEnrolled }"
           >
-            <p v-if="!isEnrolmented">수강신청 하기</p>
+            <p v-if="!enrolment.isEnrolled" @click="asd">수강신청 하기</p>
             <p v-else>이미 등록된 강의입니다.</p></button
           ><br />
           <button class="cart-btn">바구니에 담기</button>
@@ -65,7 +65,6 @@ import StarRatings from "../components/common/StarRatings.vue";
 export default {
   data() {
     return {
-      isEnrolmented: false,
       topPos: 0,
       accountInfoStyle: {
         top: 0,
@@ -79,7 +78,6 @@ export default {
   },
   mounted() {
     this.$store.commit("getEnrolment", this.$route.params.id);
-    console.log(this.$store.state.userState.idForm);
     this.$store.commit("loginCheck");
     this.topPos = this.$refs.floating.getBoundingClientRect().top;
   },
