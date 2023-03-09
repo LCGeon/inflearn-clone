@@ -129,7 +129,7 @@ export default {
         signType: signConst.account.type,
       };
       axios
-        .post("/api/signup", args)
+        .post("/api/account/signup", args)
         .then((res) => {
           signConst.account = res.data;
           alert("회원가입이 정상적으로 완료되었습니다.");
