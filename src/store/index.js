@@ -15,10 +15,6 @@ export default createStore({
         loginId: "",
         loginPw: "",
       },
-      idForm: {
-        userId: null,
-        lectureId: "",
-      },
     },
     event: {
       coupon: 0,
