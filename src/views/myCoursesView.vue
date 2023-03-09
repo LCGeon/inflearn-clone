@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ userLecture }}
+    {{ mycourses }}
   </div>
 </template>
 
@@ -8,7 +8,10 @@
 import { mapState } from "vuex";
 export default {
   computed: {
-    ...mapState(["userLecture"]),
+    ...mapState(["mycourses"]),
+  },
+  mounted() {
+    this.$store.commit("getMycourses");
   },
 };
 </script>
