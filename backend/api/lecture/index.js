@@ -58,32 +58,6 @@ app.get('/list', async (req, res) => {
     }
 });
 
-app.get('../member/lecture/list', async (req, res) => {
-    const cookies = req.cookies;
-    const token = cookies?.token;
-    let user = {};
-
-    if (!token) {
-        return res.status(401).json({ message: '로그인 해주세요.' });
-    }
-
-    try {
-        user = jwt.verify(token, jwtSecretKey);
-    } catch (err) {
-        return res.status(401).json({ message: '유효하지 않은 토큰입니다.' });
-    }
-
-    try {
-        const userLectureList = await knex('student_courses')
-            .select('id', 'user', 'title', 'context')
-            .leftJoin('accounts', 'student_courses.lecture_id', 'lecture.id')
-            .where({ user_id: user.id })
-        res.status(200).json({ userLectureList });
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
 app.post('/', async (req, res) => {
     const body = req.body;
 
