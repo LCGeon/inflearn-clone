@@ -68,7 +68,7 @@ app.post('/', async (req, res) => {
     }
 });
 
-app.post('../signup', async (req, res) => {
+app.post('/signup', async (req, res) => {
     const body = req.body;
     const { signId, signPw, signType } = body;
     try {
