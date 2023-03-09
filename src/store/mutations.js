@@ -52,11 +52,9 @@ export default {
   },
 
   getEnrolment(state, id) {
-    axios.get("/api/lecture/list").then((res) => {
-      var filterId = res.data.lectureList.filter((e) => {
-        return e.id == id;
-      });
-      state.enrolment = filterId[0];
+    axios.get(`/api/lecture?lectureId=${id}`).then((res) => {
+      state.enrolment = res.data;
+      console.log(res);
     });
   },
 
