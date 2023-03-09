@@ -37,7 +37,9 @@
             :disabled="enrolment.isEnrolled"
             :class="{ registered: enrolment.isEnrolled }"
           >
-            <p v-if="!enrolment.isEnrolled" @click="asd">수강신청 하기</p>
+            <p v-if="!enrolment.isEnrolled" @click="addEnrolment">
+              수강신청 하기
+            </p>
             <p v-else>이미 등록된 강의입니다.</p></button
           ><br />
           <button class="cart-btn">바구니에 담기</button>
@@ -79,6 +81,7 @@ export default {
   mounted() {
     this.$store.commit("getEnrolment", this.$route.params.id);
     this.$store.commit("loginCheck");
+
     this.topPos = this.$refs.floating.getBoundingClientRect().top;
   },
   methods: {
@@ -94,19 +97,16 @@ export default {
 
     addEnrolment() {
       const args = {
-        user_id: this.$store.state.userState.account.id,
-        lecture_id: this.$route.params.id,
+        lectureId: this.$route.params.id,
       };
       axios
-        .post("/api/enrolment", args)
-        .then((res) => {
-          this.$store.state.userState.idForm = res.data;
+        .post("/api/lecture/enrolment", args)
+        .then(() => {
           alert("수강 신청이 완료되었습니다.");
-          console.log(this.$store.state.userState.idForm);
+          this.$router.push({ name: "lecture" });
         })
         .catch((err) => {
           console.log(err);
-          console.log(this.$store.state.userState.idForm);
         });
     },
   },
