@@ -1,5 +1,11 @@
 const express = require('express');
 const app = express();
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const jwtSecretKey = process.env.jWT_SECRET_KEY || '';
 
 const knex = require('knex')({
     client: 'sqlite3',
@@ -12,7 +18,7 @@ const knex = require('knex')({
 app.post('/', async (req, res) => {
     const body = req.body;
 
-    if (!body?.title && !body?.context && !body?.videoUrl && !body?.price) {
+    if (!body?.title || !body?.context || !body?.videoUrl || !body?.price) {
         return res.status(400).json({ message: '제대로 보내세오' });
     }
 
@@ -24,22 +30,47 @@ app.post('/', async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: '통신 오류' });
     }
-
-    // dbController.insertLecture(title, context, videoUrl, price)
-    //     .then((_) => {
-    //         res.status(200).json()
-    //     })
-    //     .catch((error) => {
-    //         return res.status(500).json(error);
-    //     });
-
 });
 
 app.get('/list', async (req, res) => {
-
     try {
         const lectureList = await knex('lecture').select('*');
         res.status(200).json({ lectureList });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+app.get('/', async (req, res) => {
+    const cookies = req.cookies;
+    const token = cookies?.token;
+    const query = req.query;
+    let user = {};
+
+    if (!query?.lectureId) {
+        return res.status(400).json({ message: '제대로 보내세오' });
+    }
+    if (!token) {
+        return res.status(401).json({ message: '로그인 해주세요.' });
+    }
+
+    const { lectureId } = query;
+
+    try {
+        user = jwt.verify(token, jwtSecretKey);
+    } catch (err) {
+        return res.status(401).json({ message: '유효하지 않은 토큰입니다.' });
+    }
+
+    try {
+        const [lectureInfo, userLecture] = await Promise.all([
+            knex('lecture').select('*').where({ id: lectureId }).first(),
+            knex('student_courses').select('lecture_id').where({ user_id: user.id }).first()
+        ]);
+
+        const isEnrolled = !!userLecture;
+
+        res.status(200).json({ ...lectureInfo, isEnrolled });
     } catch (err) {
         res.status(500).json(err);
     }
