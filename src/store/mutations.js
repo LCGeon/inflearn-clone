@@ -45,42 +45,30 @@ export default {
       this.state.ismodal = true;
     }
   },
-  getLectureList() {
+  getLectureList(state) {
     axios.get("/api/lecture/list").then((res) => {
-      this.state.lectureList = res.data.lectureList;
+      state.lectureList = res.data.lectureList;
     });
   },
 
   getEnrolment(state, id) {
     axios.get(`/api/lecture?lectureId=${id}`).then((res) => {
       state.enrolment = res.data;
-      console.log(res);
     });
   },
 
-  getLoginInfo() {
+  getLoginInfo(state) {
     axios.get("/api/account").then((res) => {
-      this.state.userState.account = res.data;
+      state.userState.account = res.data;
     });
   },
 
-  addEnrolment(state, id) {
-    const args = {
-      user_id: state.userState.account.id,
-      lecture_id: id,
-    };
-    axios
-      .post("/api/enrolment", args)
-      .then((res) => {
-        state.userState.idForm = res.data;
-        console.log("들어감");
-        console.log(res.data);
-      })
-      .catch(() => {
-        console.log(state.userState.account.id, id);
-        console.log(state.userState.idForm);
-      });
+  getMycourses(state) {
+    axios.get("/api/member/lecture/list").then((res) => {
+      state.mycourses = res.data;
+    });
   },
+
   setHoveredBox(state, lectureItem) {
     state.lectureContext = lectureItem;
   },
