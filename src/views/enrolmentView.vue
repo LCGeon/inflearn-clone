@@ -81,8 +81,10 @@ export default {
   mounted() {
     this.$store.commit("getEnrolment", this.$route.params.id);
     this.$store.commit("loginCheck");
-
     this.topPos = this.$refs.floating.getBoundingClientRect().top;
+  },
+  created() {
+    window.scrollTo(0, 0);
   },
   methods: {
     onScroll() {
