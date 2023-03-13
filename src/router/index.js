@@ -25,7 +25,7 @@ const routes = [
     name: "upload",
 
     component: () =>
-      import(/* webpackChunkName: "signup" */ "../views/uploadMainView.vue"),
+      import(/* webpackChunkName: "signup" */ "../views/uploadView.vue"),
   },
   {
     path: "/enrolment/:id",
@@ -40,6 +40,13 @@ const routes = [
 
     component: () =>
       import(/* webpackChunkName: "lecture" */ "../views/myCoursesView.vue"),
+  },
+  {
+    path: "/uploadTest",
+    name: "uploadTest",
+
+    component: () =>
+      import(/* webpackChunkName: "lecture" */ "../views/uploadMainView.vue"),
   },
 ];
 
