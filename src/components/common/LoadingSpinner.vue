@@ -21,6 +21,7 @@ export default {
 
 <style scoped>
 body {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -32,6 +33,7 @@ body {
   top: 0%;
   left: 0%;
   background: rgba(11, 19, 30, 0.37);
+  z-index: 11;
 }
 .lds-facebook div {
   display: inline-block;
@@ -40,6 +42,7 @@ body {
   width: 13px;
   background: #42b883;
   animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  z-index: 11;
 }
 .lds-facebook div:nth-child(1) {
   left: 6px;
