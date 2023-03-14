@@ -30,14 +30,24 @@
       <br />
       <button class="login__login-btn" @click="submit()">로그인</button>
     </div>
+    <LoadingSpinner :loading="loadingStatus"></LoadingSpinner>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import LoadingSpinner from "../common/LoadingSpinner.vue";
 export default {
+  components: { LoadingSpinner },
   computed: {
-    ...mapState(["ismodal", "userState", "pwdValue", "pwd", "logo"]),
+    ...mapState([
+      "ismodal",
+      "userState",
+      "pwdValue",
+      "pwd",
+      "logo",
+      "loadingStatus",
+    ]),
   },
   methods: {
     ...mapMutations(["submit", "loginAfter", "pwdShow", "pwdHide"]),
