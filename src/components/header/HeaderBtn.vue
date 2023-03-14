@@ -7,7 +7,7 @@
       <i class="bi-cart3"></i>
     </button>
     <button class="header__icon-user">
-      <i class="bi-person" @mouseover="personModal()"></i>
+      <i class="bi-person" @mouseover="personModal"></i>
     </button>
     <UserModal></UserModal>
   </div>
@@ -30,7 +30,7 @@ export default {
   },
   components: { UserModal },
   methods: {
-    ...mapMutations(["personModal"]),
+    ...mapMutations(["personModal", "personModalOut"]),
   },
 };
 </script>
