@@ -31,6 +31,7 @@ export default createStore({
       "커리어",
       "자기 계발",
     ],
+    mycourses: [],
     userLecture: [],
     lectureList: [],
     enrolment: {},
@@ -46,5 +47,4 @@ export default createStore({
   getters,
   mutations,
   actions,
-  modules: {},
 });
