@@ -34,14 +34,35 @@
           <button
             class="enrolment-btn"
             @click="addEnrolment"
-            :disabled="enrolment.isEnrolled"
-            :class="{ registered: enrolment.isEnrolled }"
+            :disabled="
+              enrolment.isEnrolled || userState.account.id === enrolment.user
+            "
+            :class="{
+              registered:
+                enrolment.isEnrolled || userState.account.id === enrolment.user,
+            }"
           >
-            <p v-if="!enrolment.isEnrolled" @click="addEnrolment">
+            <p
+              v-if="
+                !enrolment.isEnrolled && userState.account.id != enrolment.user
+              "
+            >
               수강신청 하기
             </p>
-            <p v-else>이미 등록된 강의입니다.</p></button
-          ><br />
+
+            <p
+              v-if="
+                enrolment.isEnrolled && userState.account.id != enrolment.user
+              "
+            >
+              이미 등록된 강의입니다.
+            </p>
+            <p v-if="userState.account.id === enrolment.user">
+              본인 강의입니다.
+            </p>
+          </button>
+
+          <br />
           <button class="cart-btn">바구니에 담기</button>
         </div>
         <div class="floating-info">
@@ -76,7 +97,7 @@ export default {
   },
   components: { StarRatings },
   computed: {
-    ...mapState(["enrolment"]),
+    ...mapState(["enrolment", "userState"]),
   },
   mounted() {
     this.$store.commit("getEnrolment", this.$route.params.id);
