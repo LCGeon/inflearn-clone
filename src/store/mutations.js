@@ -9,6 +9,7 @@ export default {
     });
   },
   submit() {
+    this.state.loadingStatus = true;
     const args = {
       loginId: this.state.userState.form.loginId,
       loginPw: this.state.userState.form.loginPw,
@@ -17,6 +18,7 @@ export default {
       .post("/api/account", args)
       .then((res) => {
         this.state.userState.account = res.data;
+        this.state.loadingStatus = false;
         this.state.ismodal = false;
         router.push({ name: "home" });
       })
@@ -65,7 +67,7 @@ export default {
 
   getMycourses(state) {
     axios.get("/api/member/lecture/list").then((res) => {
-      state.mycourses = res.data;
+      state.mycourses = res.data.memberLectureList;
     });
   },
 
