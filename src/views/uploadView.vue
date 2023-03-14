@@ -13,20 +13,20 @@
     </div>
     <div class="upload__container">
       <div v-show="uploadPage === 1">
-        <h1>강의 정보</h1>
+        <h2>강의 정보</h2>
         <div class="upload__info">
           <div>
             <div class="upload__info-title">
               <i class="bi bi-pen"></i>
-              <h2>강의 제목&nbsp;</h2>
+              <h3>강의 제목&nbsp;</h3>
               <input type="text" />
             </div>
             <div class="upload__info-type">
               <i class="bi bi-list-task"></i>
-              <h2>강의 분류&nbsp;</h2>
+              <h3>강의 분류&nbsp;</h3>
 
               <select class="lecture__type">
-                <option value="" selected="selected">강의 종류 선택</option>
+                <option value="">강의 종류 선택</option>
                 <option
                   v-for="data in this.$store.state.lectureType"
                   :key="data"
@@ -37,35 +37,35 @@
             </div>
             <div class="upload__info-price">
               <i class="bi bi-cash"></i>
-              <h2>강의 가격&nbsp;</h2>
+              <h3>강의 가격&nbsp;</h3>
               <input type="text" />
             </div>
           </div>
           <div class="upload__info-context">
-            <h2><i class="bi bi-file-earmark-text"></i>강의 설명</h2>
+            <h3><i class="bi bi-file-earmark-text"></i>강의 설명</h3>
             <input type="text" />
           </div>
         </div>
       </div>
 
       <div class="upload__thumbnail" v-show="uploadPage === 2">
-        <h1>썸네일</h1>
-        <h2><i class="bi bi-card-image"></i>강의 썸네일 업로드</h2>
+        <h2>썸네일</h2>
+        <h3><i class="bi bi-card-image"></i>강의 썸네일 업로드</h3>
         <input
           type="file"
           accept="img/jpg,img/png,img/*"
           ref="imgInput"
           @change="previewImg()"
         />
-        <h2><i class="bi bi-emoji-sunglasses"></i>썸네일 미리보기</h2>
+        <h3><i class="bi bi-emoji-sunglasses"></i>썸네일 미리보기</h3>
         <img :src="selectImg" id="thumbnail" @error="ImageError" />
       </div>
 
       <div v-show="uploadPage === 3" class="upload__video">
-        <h1>강의 등록</h1>
+        <h2>강의 등록</h2>
         <div class="upload__video-container">
           <div>
-            <h2><i class="bi bi-file-earmark-play"></i>동영상 파일</h2>
+            <h3><i class="bi bi-file-earmark-play"></i>동영상 파일</h3>
             <input
               type="file"
               ref="fileInput"
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div>
-          <h2><i class="bi bi-camera-reels"></i>영상 미리보기</h2>
+          <h3><i class="bi bi-camera-reels"></i>영상 미리보기</h3>
           <video
             class="upload__video-preview"
             :src="selectVideo"
@@ -86,7 +86,7 @@
         </div>
         <div>
           <div class="tit_lecture">
-            <h2><i class="bi bi-pen"></i>강의 영상 제목</h2>
+            <h3><i class="bi bi-pen"></i>강의 영상 제목</h3>
             <input
               class="upload__lecture-title"
               type="text"
@@ -234,7 +234,7 @@ export default {
 section {
   padding: 30px 360px 40px;
 }
-h1 {
+h2 {
   color: rgb(2, 200, 88);
   font-size: 38px;
   margin-bottom: 50px;
@@ -298,8 +298,10 @@ label {
   justify-content: center;
   align-items: center;
   border: 1px solid;
+  border-radius: 10px;
   padding: 30px;
   margin: 0px 0px 40px 0px;
+  box-shadow: 5px 5px 5px 5px gray;
 }
 .upload__video {
   display: flex;
