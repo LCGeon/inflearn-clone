@@ -32,7 +32,7 @@ nav {
   background: rgba(11, 19, 30, 0.37);
   position: fixed;
   padding: 20px;
-  z-index: 1;
+  z-index: 9998;
 }
 .white-bg {
   padding: 24px;
@@ -41,7 +41,7 @@ nav {
   height: 482px;
   background-color: #fff;
   border-radius: 6px;
-  z-index: 1;
+  z-index: 9998;
 }
 .login__modal-close-btn {
   display: inline-block;
