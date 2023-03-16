@@ -1,6 +1,6 @@
 <template>
   <!-- 슬라이드 배너 -->
-  <Carousel :slides="slides"></Carousel>
+  <BannerCarousel :slides="slides"></BannerCarousel>
   <div class="Home__Writing"><h1>배우고, 나누고, 성장하세요</h1></div>
   <div class="Home__Writing">
     <label>
@@ -14,29 +14,41 @@
       </button>
     </label>
   </div>
-  <lectureList></lectureList>
+  <HashCarousel></HashCarousel>
+  <div class="Home__mycourses-container">
+    <div class="Home__mycourses-title">
+      <h2>내 학습</h2>
+      <span><i class="bi bi-chevron-right"></i></span>
+    </div>
+    <div class="courses__box">
+      <div v-for="homeCourses in mycourses" :key="homeCourses" class="mc">
+        <div>
+          <img :src="homeCourses.image_url" alt="" class="courses__img" />
+        </div>
+        <div>
+          {{ homeCourses.title }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import Carousel from "../components/carousel/Carousel.vue";
-import lectureList from "../components/lecture/LectureList.vue";
+import { mapState } from "vuex";
+import BannerCarousel from "../components/carousel/BannerCarousel/Carousel.vue";
+import HashCarousel from "../components/carousel/hashCarousel/HashCarousel.vue";
 export default {
-  components: { Carousel, lectureList },
-  data() {
-    return {
-      slides: [
-        `${this.$store.state.urlConfig}vLHOrD.jpg"`,
-        `${this.$store.state.urlConfig}0O7WYH.jpg`,
-        `${this.$store.state.urlConfig}7XodWv.jpg`,
-        `${this.$store.state.urlConfig}jhaXN6.jpg`,
-        `${this.$store.state.urlConfig}4LOBMG.jpg`,
-        `${this.$store.state.urlConfig}syN1kv.jpg`,
-        `${this.$store.state.urlConfig}8Brotq.jpg`,
-        `${this.$store.state.urlConfig}AY4anQ.jpg`,
-        `${this.$store.state.urlConfig}lQm66h.jpg`,
-        `${this.$store.state.urlConfig}8HAqPj.jpg`,
-      ],
-    };
+  components: { BannerCarousel, HashCarousel },
+  computed: {
+    ...mapState("addressStore", {
+      slides: (state) => state.slides,
+    }),
+    ...mapState("getDataStore", {
+      mycourses: (state) => state.mycourses,
+    }),
+  },
+  mounted() {
+    this.$store.commit("getDataStore/getMycourses");
   },
 };
 </script>
@@ -72,5 +84,30 @@ export default {
 }
 label {
   position: relative;
+}
+.Home__mycourses-title {
+  display: flex;
+  justify-content: left;
+}
+.bi {
+  font-size: 24px;
+  margin: 0px 0px 0px 10px;
+}
+.Home__mycourses-container {
+  text-align: center;
+  margin: 10px 165px;
+}
+.courses__box {
+  display: flex;
+  border: 1px solid;
+  padding: 10px;
+  overflow: hidden;
+}
+.courses__img {
+  height: 140px;
+}
+.mc {
+  display: flex;
+  height: 300px;
 }
 </style>
