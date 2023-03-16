@@ -18,7 +18,7 @@ import MainFooter from "./components/MainFooter.vue";
 export default {
   components: { MainHeader, MainFooter, LoginModal },
   mounted() {
-    this.$store.commit("getLoginInfo");
+    this.$store.commit("loginStore/getLoginInfo");
   },
 };
 </script>
