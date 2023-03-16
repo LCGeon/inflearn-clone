@@ -5,7 +5,10 @@
     @mouseleave="personModalOut()"
   >
     <div class="header__person-modal-item">
-      <img class="person-modal-img" :src="this.$store.state.userImg" />
+      <img
+        class="person-modal-img"
+        :src="this.$store.state.addressStore.userImg"
+      />
       <span class="user__id"
         ><i class="bi bi-house-fill"></i>{{ userState.account.id }}
         <i class="bi bi-chevron-right"></i
@@ -66,12 +69,15 @@
 import { mapState, mapMutations } from "vuex";
 export default {
   computed: {
-    ...mapState(["ismodal", "userState", "event"]),
+    ...mapState(["ismodal", "event"]),
+    ...mapState("loginStore", {
+      userState: (state) => state.userState,
+    }),
   },
   methods: {
     ...mapMutations(["personModalOut"]),
     logout() {
-      this.$store.commit("logout");
+      this.$store.commit("loginStore/logout");
       this.$router.replace("/");
       alert("로그아웃 되었습니다.");
     },

@@ -34,7 +34,9 @@ import LectureList from "../components/lecture/LectureList.vue";
 export default {
   components: { LectureList },
   computed: {
-    ...mapState(["lectureType"]),
+    ...mapState("addressStore", {
+      lectureType: (state) => state.lectureType,
+    }),
   },
 };
 </script>

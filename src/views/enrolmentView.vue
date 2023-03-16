@@ -1,16 +1,6 @@
 <template>
   <body>
-    <div class="title">
-      <img :src="enrolment.image_url" class="img" />
-      <div class="lecture">
-        <div class="lecture-title">{{ enrolment.title }}</div>
-        <div class="lecture-master">
-          <i class="bi bi-person"></i> <span> {{ enrolment.user }} </span>
-        </div>
-        <StarRatings></StarRatings>
-        <span class="star-ratings-number">(5.0)</span>
-      </div>
-    </div>
+    <LectureTitle></LectureTitle>
     <div class="enrolment-info-menu">
       <button class="info-menu-context">강의 소개</button>
       <button class="info-menu-curriculum">커리큘럼</button>
@@ -84,7 +74,7 @@
 <script>
 import { mapState } from "vuex";
 import axios from "axios";
-import StarRatings from "../components/common/StarRatings.vue";
+import LectureTitle from "../components/lecture/LectureTitle.vue";
 export default {
   data() {
     return {
@@ -95,13 +85,17 @@ export default {
       },
     };
   },
-  components: { StarRatings },
+  components: { LectureTitle },
   computed: {
-    ...mapState(["enrolment", "userState"]),
+    ...mapState("loginStore", {
+      userState: (state) => state.userState,
+    }),
+    ...mapState("getDataStore", {
+      enrolment: (state) => state.enrolment,
+    }),
   },
   mounted() {
-    this.$store.commit("getEnrolment", this.$route.params.id);
-    this.$store.commit("loginCheck");
+    this.$store.commit("getDataStore/getEnrolment", this.$route.params.id);
     this.topPos = this.$refs.floating.getBoundingClientRect().top;
   },
   created() {
@@ -137,13 +131,6 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  background-color: #002333;
-}
-
 .enrolment {
   display: flex;
   justify-content: center;
@@ -157,22 +144,6 @@ export default {
   font-size: 14px;
   border-bottom: 1px solid #dfdfdf;
 }
-.img {
-  width: 400px;
-  height: 280px;
-  padding: 40px;
-}
-.lecture-title {
-  color: #fff;
-  font-weight: 600;
-  font-size: 24px;
-  margin-bottom: 10px;
-  width: 500px;
-}
-.lecture {
-  margin-top: 70px;
-}
-
 .info-container {
   width: 700px;
   white-space: normal;
@@ -184,10 +155,6 @@ export default {
   border: 1px solid #dfdfdf;
   height: 380px;
   width: 400px;
-}
-.star-ratings-number {
-  color: white;
-  margin-left: 83px;
 }
 
 .enrolment-btn,
@@ -208,13 +175,7 @@ export default {
 .menu_focus {
   font-size: 20px;
 }
-.bi-person {
-  font-size: 19px;
-}
-.lecture-master {
-  margin-bottom: 10px;
-  color: white;
-}
+
 .floating-info {
   margin-top: 2.5rem;
   font-size: 16px;

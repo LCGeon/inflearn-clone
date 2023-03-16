@@ -38,10 +38,13 @@ import StarRatings from "../common/StarRatings.vue";
 export default {
   components: { StarRatings },
   computed: {
-    ...mapState(["lectureList", "lectureContext"]),
+    ...mapState(["lectureContext"]),
+    ...mapState("getDataStore", {
+      lectureList: (state) => state.lectureList,
+    }),
   },
   mounted() {
-    this.$store.commit("getLectureList");
+    this.$store.commit("getDataStore/getLectureList");
   },
   methods: {
     hoverContext(index) {

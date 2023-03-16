@@ -86,6 +86,7 @@ export default {
         detail: "",
         price: "",
         img: "",
+        user: this.$store.state.loginStore.userState.account.id,
       },
       form: {
         VideoAddress: "",
@@ -101,7 +102,6 @@ export default {
       },
     };
   },
-
   methods: {
     previewVideo() {
       const file = this.$refs.videoInput.files[0];
@@ -152,7 +152,7 @@ export default {
                   title: this.account.title,
                   context: this.account.detail,
                   price: this.account.price,
-                  user: this.$store.state.userState.account.id,
+                  user: this.account.user,
                 };
                 axios
                   .post("/api/lecture", args)

@@ -66,10 +66,12 @@ import AsideMenu from "../components/menu/AsideMenu.vue";
 export default {
   components: { AsideMenu },
   computed: {
-    ...mapState(["mycourses"]),
+    ...mapState("getDataStore", {
+      mycourses: (state) => state.mycourses,
+    }),
   },
   mounted() {
-    this.$store.commit("getMycourses");
+    this.$store.commit("getDataStore/getMycourses");
   },
 };
 </script>
