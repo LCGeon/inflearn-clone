@@ -5,6 +5,7 @@
     :key="lectureItem"
     @mouseover="hoverContext(index)"
     @mouseleave="hoverOut(index)"
+    @click="loginCheck"
   >
     <router-link :to="`/enrolment/${lectureItem.id}`">
       <div v-show="lectureContext === index" class="hover__context">
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import StarRatings from "../common/StarRatings.vue";
 export default {
   components: { StarRatings },
@@ -55,6 +56,7 @@ export default {
         this.$store.commit("setHoveredBox", null);
       }
     },
+    ...mapMutations("loginStore", ["loginCheck"]),
   },
 };
 </script>
@@ -70,6 +72,7 @@ export default {
   overflow: hidden;
   /* border: 1px solid; */
   cursor: pointer;
+  text-align: left;
 }
 #box:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -114,7 +117,7 @@ export default {
   height: 100%;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 5;
   font-size: 15px;
 }
 .context__title {
