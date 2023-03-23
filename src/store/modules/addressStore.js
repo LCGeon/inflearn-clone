@@ -1,5 +1,6 @@
 const storage = "https://ifh.cc/g/";
 const HashImg = "https://cdn.inflearn.com/public/curation/";
+const HashLink = "https://www.inflearn.com/tag-curation/";
 
 const addressStore = {
   namespaced: true,
@@ -48,6 +49,19 @@ const addressStore = {
       "엑셀",
       "데이터",
       "보안",
+    ],
+    hashCarouselLink: [
+      `${HashLink}common_tag/managed-bootcamp`,
+      `${HashLink}common_tag/dc-bootcamp-2023`,
+      `${HashLink}skill/66`,
+      "",
+      "",
+      `${HashLink}skill/483`,
+      `${HashLink}category/devops-infra`,
+      `${HashLink}category/front-end`,
+      `${HashLink}skill/57`,
+      "",
+      `${HashLink}category/mobile-app`,
     ],
     lectureType: [
       "개발 · 프로그래밍",
