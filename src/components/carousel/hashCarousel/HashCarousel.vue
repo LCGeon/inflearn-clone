@@ -7,14 +7,13 @@
         :key="data"
       >
         <section class="hc__section">
-          <a class="hc__a">
+          <a :href="link[index]">
             <img :src="hashCarousel[index]" alt="" class="hc__img" />
             <p class="hc__title">#{{ title[index] }}</p>
           </a>
         </section>
       </li>
     </ul>
-    <button class="hc__button" @click="nextSlide">Next</button>
   </div>
 </template>
 
@@ -25,10 +24,8 @@ export default {
     ...mapState("addressStore", {
       hashCarousel: (state) => state.hashCarousel,
       title: (state) => state.hashCarouselTitle,
+      link: (state) => state.hashCarouselLink,
     }),
-    methods: {
-      nextSlide() {},
-    },
   },
 };
 </script>
@@ -37,7 +34,6 @@ export default {
 .hc {
   position: relative;
   width: 100%;
-  /* height: 150px; */
   margin: 0px 0px 0px 120px;
 }
 .hc__container {
@@ -54,9 +50,10 @@ export default {
   text-align: center;
   width: 100px;
   height: 90px;
-  cursor: pointer;
 }
-
+.hc__li:hover .hc__title {
+  color: rgb(61, 170, 7);
+}
 .hc__title {
   width: 104px;
   font-size: 13px;
@@ -65,5 +62,8 @@ export default {
 .hc__img {
   width: 36px;
   height: 36px;
+}
+a {
+  cursor: pointer;
 }
 </style>
