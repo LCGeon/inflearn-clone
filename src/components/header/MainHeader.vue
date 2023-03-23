@@ -1,6 +1,8 @@
 <template>
-  <HeaderMenu></HeaderMenu>
-  <HeaderBtn></HeaderBtn>
+  <nav>
+    <HeaderMenu></HeaderMenu>
+    <HeaderBtn></HeaderBtn>
+  </nav>
 </template>
 
 <script>
