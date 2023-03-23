@@ -1,7 +1,6 @@
 <template>
-  <nav>
-    <MainHeader></MainHeader>
-  </nav>
+  <MainHeader></MainHeader>
+
   <LoginModal></LoginModal>
   <main>
     <router-view />
