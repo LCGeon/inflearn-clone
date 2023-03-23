@@ -7,6 +7,10 @@ footer {
   height: 25px;
   cursor: pointer;
 }
+html,
+body {
+  min-height: 100%;
+}
 ul {
   list-style: none;
   padding-left: 1.5rem;
@@ -27,12 +31,12 @@ nav {
   z-index: 9996;
 }
 .black-bg {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(11, 19, 30, 0.37);
   position: fixed;
   padding: 20px;
-  z-index: 9998;
+  z-index: 1;
 }
 .white-bg {
   padding: 24px;
