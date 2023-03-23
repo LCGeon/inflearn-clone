@@ -1,13 +1,25 @@
 <template>
   <section>
     <div class="progress-container">
-      <div class="progress-item" :class="{ 'header-none': uploadPage != 1 }">
+      <div
+        class="progress-item"
+        :class="{ 'header-none': uploadPage != 1 }"
+        @click="uploadPage = 1"
+      >
         강의 정보
       </div>
-      <div class="progress-item" :class="{ 'header-none': uploadPage != 2 }">
+      <div
+        class="progress-item"
+        :class="{ 'header-none': uploadPage != 2 }"
+        @click="uploadPage = 2"
+      >
         썸네일
       </div>
-      <div class="progress-item" :class="{ 'header-none': uploadPage != 3 }">
+      <div
+        class="progress-item"
+        :class="{ 'header-none': uploadPage != 3 }"
+        @click="uploadPage = 3"
+      >
         강의 등록
       </div>
     </div>
@@ -48,17 +60,21 @@
         </div>
       </div>
 
-      <div class="upload__thumbnail" v-show="uploadPage === 2">
+      <div class="upload__thumbnail-container" v-show="uploadPage === 2">
         <h2>썸네일</h2>
-        <h3><i class="bi bi-card-image"></i>강의 썸네일 업로드</h3>
-        <input
-          type="file"
-          accept="img/jpg,img/png,img/*"
-          ref="imgInput"
-          @change="previewImg()"
-        />
-        <h3><i class="bi bi-emoji-sunglasses"></i>썸네일 미리보기</h3>
-        <img :src="selectImg" id="thumbnail" @error="ImageError" />
+        <div class="upload__thumbnail">
+          <h3><i class="bi bi-card-image"></i>강의 썸네일 업로드</h3>
+          <input
+            type="file"
+            accept="img/jpg,img/png,img/*"
+            ref="imgInput"
+            @change="previewImg()"
+          />
+        </div>
+        <div>
+          <h3><i class="bi bi-emoji-sunglasses"></i>썸네일 미리보기</h3>
+          <img :src="selectImg" id="thumbnail" @error="ImageError" />
+        </div>
       </div>
 
       <div v-show="uploadPage === 3" class="upload__video">
@@ -272,6 +288,7 @@ label {
   color: #ffffff;
   font-weight: bold;
   box-shadow: 3px 3px 3px 3px gray;
+  cursor: pointer;
 }
 
 .progress-item:before {
@@ -348,13 +365,15 @@ label {
   border: 1px solid rgb(156, 156, 156);
   box-shadow: 1px 1px 1px 1px gray;
 }
-.upload__thumbnail,
-.upload__thumbnail h2,
-.upload__thumbnail h3,
+.upload__thumbnail-container,
+.upload__thumbnail-container h2,
+.upload__thumbnail-container h3,
 bi {
   text-align: center;
   align-items: center;
-  margin: 20px 0px;
+}
+.upload__thumbnail {
+  margin: 50px 0px;
 }
 .upload__btn {
   width: 100px;
