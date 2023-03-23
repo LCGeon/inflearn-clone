@@ -25,6 +25,8 @@ const loginStore = {
         state.userState.account.id = null;
         state.userState.account.name = "";
         state.userState.account.type = "";
+        router.push({ name: "home" });
+        router.go(0);
       });
     },
     submit(state) {
@@ -40,6 +42,7 @@ const loginStore = {
           state.loadingStatus = false;
           state.ismodal = false;
           router.push({ name: "home" });
+          router.go(0);
         })
         .catch(() => {
           alert("올바른 정보가 아닙니다.");
