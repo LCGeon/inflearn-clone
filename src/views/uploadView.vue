@@ -1,449 +1,360 @@
 <template>
   <section>
-    <div class="progress-container">
-      <div
-        class="progress-item"
-        :class="{ 'header-none': uploadPage != 1 }"
-        @click="uploadPage = 1"
-      >
-        강의 정보
-      </div>
-      <div
-        class="progress-item"
-        :class="{ 'header-none': uploadPage != 2 }"
-        @click="uploadPage = 2"
-      >
-        썸네일
-      </div>
-      <div
-        class="progress-item"
-        :class="{ 'header-none': uploadPage != 3 }"
-        @click="uploadPage = 3"
-      >
-        강의 등록
-      </div>
-    </div>
     <div class="upload__container">
-      <div v-show="uploadPage === 1">
-        <h2>강의 정보</h2>
-        <div class="upload__info">
+      <div class="upload__header">
+        <div class="upload__title"><span>내 강의 만들기</span></div>
+        <div>
+          <button class="upload__watch">강의 보기</button>
+          <button class="upload__save">저장</button>
+        </div>
+      </div>
+      <div class="upload__main">
+        <aside class="upload__aside">
           <div>
-            <div class="upload__info-title">
-              <i class="bi bi-pen"></i>
-              <h3>강의 제목&nbsp;</h3>
-              <input type="text" />
+            <div><p>강의 제작</p></div>
+            <div class="upload__lecture-craft">
+              <div>
+                <ul>
+                  <li>강의 정보</li>
+                  <li>상세소개</li>
+                  <li>커리큘럼</li>
+                  <li>커버 이미지</li>
+                </ul>
+              </div>
             </div>
-            <div class="upload__info-type">
-              <i class="bi bi-list-task"></i>
-              <h3>강의 분류&nbsp;</h3>
-
-              <select class="lecture__type">
-                <option value="">강의 종류 선택</option>
-                <option
-                  v-for="data in this.$store.state.lectureType"
-                  :key="data"
+            <div><p>설정</p></div>
+            <div class="upload__lecture-craft">
+              <div>
+                <ul>
+                  <li>강의 설정</li>
+                  <li>지식공유자 설정</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </aside>
+        <div class="upload__lecture-main-view">
+          <div class="upload__lecture-info" v-if="uploadPage === 1">
+            <div class="upload__lecture-info-title">
+              <p>강의 제작</p>
+              <h1>강의 정보</h1>
+            </div>
+            <div>
+              <p>강의 제목</p>
+              <input type="text" class="upload__lecture-info-lecture-title" />
+            </div>
+            <div>
+              <p>카테고리</p>
+              <button
+                v-for="(data, index) in type"
+                :key="data"
+                class="typeBtn"
+                :class="{ typeActive: typeIndex === index }"
+                @click="changeType(index)"
+              >
+                {{ data }}
+              </button>
+              <p v-show="typeIndex === null" class="warningMessage">
+                카테고리를 선택해주세요.
+              </p>
+            </div>
+            <div>
+              <p>강의 수준</p>
+              <button
+                class="typeBtn"
+                v-for="(item, index) in difficulty"
+                :key="item"
+                :class="{ typeActive: difficultyIndex === index }"
+                @click="changeDifficulty(index)"
+              >
+                {{ item }}
+              </button>
+            </div>
+            <p v-show="difficultyIndex === null" class="warningMessage">
+              강의 난이도를 선택해주세요.
+            </p>
+            <div class="nextBtn">
+              <button class="upload__lecture-info-nextBtn">
+                저장 후 다음 이동
+              </button>
+            </div>
+          </div>
+          <div class="upload__detail-info" v-if="uploadPage === 2">
+            <div class="upload__lecture-info-title">
+              <p>강의 제작</p>
+              <h1>상세 정보</h1>
+            </div>
+            <div>
+              <p>
+                강의 두줄 요약
+                <span class="warningMessage"
+                  >(해당 내용은 강의리스트와 강의소개 상단에 보여집니다.)</span
                 >
-                  {{ data }}
-                </option>
-              </select>
+              </p>
+              <textarea class="detail-summary" />
             </div>
-            <div class="upload__info-price">
-              <i class="bi bi-cash"></i>
-              <h3>강의 가격&nbsp;</h3>
-              <input type="text" />
+            <div>
+              <p>
+                강의 상세 내용
+                <span class="warningMessage"
+                  >(해당 내용은 강의 소개에서 보여집니다.)</span
+                >
+              </p>
+              <textarea class="detail-input" />
+            </div>
+            <div class="nextBtn">
+              <button class="upload__lecture-info-nextBtn">
+                저장 후 다음 이동
+              </button>
             </div>
           </div>
-          <div class="upload__info-context">
-            <h3><i class="bi bi-file-earmark-text"></i>강의 설명</h3>
-            <input type="text" />
-          </div>
-        </div>
-      </div>
 
-      <div class="upload__thumbnail-container" v-show="uploadPage === 2">
-        <h2>썸네일</h2>
-        <div class="upload__thumbnail">
-          <h3><i class="bi bi-card-image"></i>강의 썸네일 업로드</h3>
-          <input
-            type="file"
-            accept="img/jpg,img/png,img/*"
-            ref="imgInput"
-            @change="previewImg()"
-          />
-        </div>
-        <div>
-          <h3><i class="bi bi-emoji-sunglasses"></i>썸네일 미리보기</h3>
-          <img :src="selectImg" id="thumbnail" @error="ImageError" />
-        </div>
-      </div>
+          <div class="upload__curriculum" v-if="uploadPage === 3">
+            <div>
+              <p>강의 제작</p>
+              <p>커리큘럼</p>
+            </div>
+            <div class="upload__curriculum-btn">
+              <div>
+                <i class="bi bi-cloud-plus"></i
+                ><button>여러 동영상 업로드 관리</button>
+              </div>
+              <div class="upload__curriculum-btn-add-section">
+                <i class="bi bi-plus-circle"></i
+                ><button @click="addSection">섹션 추가하기</button>
+              </div>
+            </div>
+            <div
+              class="upload__curriculum-section"
+              v-for="(data, index) in section"
+              :key="data"
+            >
+              <div class="upload__curriculum-section-title">
+                <div>
+                  <h3>섹션 {{ index }} : 제목을 입력해주세요.</h3>
+                </div>
+                <div class="curriculum-icon">
+                  <span>
+                    <i class="bi bi-plus-circle"></i
+                    ><button>수업 추가하기</button></span
+                  >
+                  <span><i class="bi bi-pencil"></i></span>
+                  <span @click="deleteSection">
+                    <i class="bi bi-trash3"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <div v-show="uploadPage === 3" class="upload__video">
-        <h2>강의 등록</h2>
-        <div class="upload__video-container">
-          <div>
-            <h3><i class="bi bi-file-earmark-play"></i>동영상 파일</h3>
-            <input
-              type="file"
-              ref="fileInput"
-              @change="previewVideo()"
-              accept="video/mp4,video/mkv, video/x-m4v,video/*"
-            />
+          <div class="upload__cover-image" v-if="uploadPage === 4">
+            <div class="upload__lecture-info-title">
+              <p>강의 제작</p>
+              <h1>커버 이미지</h1>
+            </div>
+            <div class="upload__cover-image-notice">
+              <h2>커버 이미지 - 썸네일및 홍보영상 등록</h2>
+              <h5>
+                강의 커버 이미지(썸네일)를 직접 제작하실 경우, 이미지 규정에
+                맞춰주세요 <br />
+                이미지가 규정에 맞지 않을 경우, 운영팀 판단하에 임의로 변경될 수
+                있습니다. <br />
+                홍보동영상 등록에 홍보동영상이나 강의 첫번째 영상(무료공개)을
+                등록해주세요.
+              </h5>
+            </div>
           </div>
         </div>
-        <div>
-          <h3><i class="bi bi-camera-reels"></i>영상 미리보기</h3>
-          <video
-            class="upload__video-preview"
-            :src="selectVideo"
-            autoplay
-            controls
-            loop
-          ></video>
-        </div>
-        <div>
-          <div class="tit_lecture">
-            <h3><i class="bi bi-pen"></i>강의 영상 제목</h3>
-            <input
-              class="upload__lecture-title"
-              type="text"
-              v-model="videoName"
-              placeholder="영상 주제를 입력해주십시오."
-              ref="lectureName"
-            />
-          </div>
-        </div>
-        <div><button class="upload__btn" @click="addVideo">추가</button></div>
-        <div>
-          <table class="upload__table">
-            <thead>
-              <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>길이</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(video, index) in videoList" :key="index">
-                <td>{{ index + 1 }}</td>
-                <td>{{ video.title }}</td>
-                <td>{{ video.length }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <label
-          >영상을 모두 추가한 후 등록 버튼을 눌러주세요. <br />
-          영상은 최대 5개까지 업로드 가능합니다.</label
-        >
-        <button class="upload__btn" @click="uploadVideos">등록</button>
       </div>
-    </div>
-    <div class="upload__page-btn">
-      <button
-        class="prev-page"
-        :class="{ none: uploadPage === 1 }"
-        @click="prevPage"
-      >
-        이전 단계
-      </button>
-      <button
-        class="next-page"
-        @click="nextPage"
-        :class="{ none: uploadPage === 3 }"
-      >
-        다음 단계
-      </button>
     </div>
   </section>
 </template>
 
 <script>
-import axios from "axios";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      selectImg: "",
-      selectVideo: "",
-      videoList: [], // 영상 정보를 저장할 배열
-      videoName: "",
-      videoLength: [],
-      uploadPage: 1,
+      section: ["1"],
+      uploadPage: 4,
+      typeIndex: null,
+      difficultyIndex: null,
+      difficulty: ["입문", "초급", "중급 이상"],
     };
   },
   methods: {
-    previewImg() {
-      const file = this.$refs.imgInput.files[0];
-      const imgUrl = URL.createObjectURL(file);
-      this.selectImg = imgUrl;
+    addSection() {
+      this.section.push("add");
     },
-    previewVideo() {
-      const file = this.$refs.fileInput.files[0];
-      const videoUrl = URL.createObjectURL(file);
-      this.selectVideo = videoUrl;
+    deleteSection() {
+      this.section.splice(1, 1);
     },
-    async uploadVideos() {
-      const files = this.$refs.fileInput.files;
-      const formData = new FormData();
-
-      for (let i = 0; i < files.length; i++) {
-        const video = this.videoList[i];
-        formData.append(`video_${i}`, files[i]);
-        formData.append(`video_${i}_title`, video.title);
-      }
-      try {
-        await axios.post("/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      } catch (err) {
-        console.log(err);
-        console.log(files, this.videoList);
-      }
+    changeType(index) {
+      this.typeIndex = index;
     },
-    async addVideo() {
-      const files = this.$refs.fileInput.files;
-      const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append(`video_${i}`, files[i]);
-        const video = {
-          title: this.videoName,
-          length: "",
-        };
-        this.videoList.push(video);
-      }
-      for (let i = 0; i < this.videoList.length; i++) {
-        try {
-          const url = URL.createObjectURL(files[i]);
-          const videoElement = document.createElement("video");
-          videoElement.addEventListener("loadedmetadata", function () {
-            this.videoList[i].length = videoElement.duration;
-          });
-          videoElement.setAttribute("src", url);
-        } catch (err) {
-          console.log(err);
-        }
-      }
-      this.videoName = "";
-      this.selectVideo = "";
-      this.$refs.fileInput.value = "";
+    changeDifficulty(index) {
+      this.difficultyIndex = index;
     },
-    ImageError() {
-      this.selectImg = require("../assets/thumbnail.png");
-    },
-    prevPage() {
-      if (this.uploadPage > 1) {
-        this.uploadPage--;
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-      }
-    },
-    nextPage() {
-      if (this.uploadPage < 3) {
-        this.uploadPage++;
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-      }
-    },
+  },
+  computed: {
+    ...mapState("addressStore", {
+      type: (state) => state.lectureType,
+    }),
   },
 };
 </script>
+
 <style scoped>
 section {
-  padding: 30px 360px 40px;
+  padding: 10px;
+  background-color: rgb(235, 235, 235);
 }
-h2 {
-  color: rgb(2, 200, 88);
-  font-size: 38px;
-  margin-bottom: 50px;
-  text-align: center;
+p {
+  font-size: 13px;
+  color: rgb(116, 116, 116);
 }
-label {
-  font-size: 12px;
-  color: rgb(255, 8, 8);
-  margin: 0px 0px 10px 0px;
-}
-.bi {
-  font-size: 29px;
-  margin-right: 20px;
-}
-.progress-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-  position: relative;
-  margin: 30px 0px 100px 0px;
-}
-
-.progress-item {
-  width: 100px;
-  height: 100px;
-  border: 1px solid white;
-  border-radius: 50%;
-  background-color: rgb(2, 200, 88);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: #ffffff;
-  font-weight: bold;
-  box-shadow: 3px 3px 3px 3px gray;
-  cursor: pointer;
-}
-
-.progress-item:before {
-  content: "";
-  position: absolute;
-  left: calc(50% - 1px);
-  top: 50%;
-  width: 50%;
-  height: 3px;
-  background-color: #59ee6f;
-  z-index: -1;
-}
-
-.progress-item:first-child:before {
-  left: 0;
-}
-
-.progress-item:last-child:before {
-  right: 0;
+textarea {
+  resize: none;
 }
 .upload__container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid;
-  border-radius: 10px;
-  padding: 30px;
-  margin: 0px 0px 40px 0px;
-  box-shadow: 5px 5px 5px 5px gray;
-}
-.upload__video {
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
-.upload__video-preview,
-#thumbnail {
-  width: 600px;
-  height: 500px;
-}
-.upload__lecture-title {
-  width: 360px;
-  height: 40px;
-  border: 1px solid;
-  border-radius: 8px;
-}
-.upload__video-container {
-  margin-bottom: 60px;
-}
-.upload__page-btn {
+.upload__header {
+  padding: 8px;
   display: flex;
-  justify-content: space-evenly;
-}
-.prev-page,
-.next-page {
-  width: 75px;
-  height: 50px;
-  background-color: rgb(2, 200, 88);
-  border: 1px solid;
-  border-radius: 10px;
+  justify-content: space-between;
+  width: 85%;
+  height: 4.4rem;
   color: white;
-  font-size: 13px;
-  font-weight: bold;
+  background-color: rgb(80, 80, 80);
 }
-.none {
-  display: none;
-}
-.header-none {
-  background-color: white;
-  color: black;
-  border: 1px solid rgb(156, 156, 156);
-  box-shadow: 1px 1px 1px 1px gray;
-}
-.upload__thumbnail-container,
-.upload__thumbnail-container h2,
-.upload__thumbnail-container h3,
-bi {
-  text-align: center;
-  align-items: center;
-}
-.upload__thumbnail {
-  margin: 50px 0px;
-}
-.upload__btn {
-  width: 100px;
-  height: 45px;
+.upload__title {
   color: white;
-  background-color: rgb(2, 200, 88);
-  border-radius: 10px;
-  border: none;
+  font-size: 22px;
+  font-weight: 600;
+  padding: 10px 0px 0px 25px;
 }
-
-table {
-  border: 1px #a39485 solid;
-  font-size: 0.9em;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  width: 700px;
-  height: 100px;
-  border-collapse: collapse;
-  border-radius: 5px;
-  overflow: hidden;
-  margin: 50px 0px;
-}
-
-th {
-  text-align: left;
-}
-
-thead {
-  font-weight: bold;
-  font-size: 17px;
-  color: #fff;
-  background: rgb(2, 200, 88);
-}
-
-td,
-th {
-  padding: 1em 0.5em;
-  vertical-align: middle;
-}
-
-td {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  background: white;
+.upload__watch,
+.upload__save {
+  width: 150px;
+  height: 55px;
+  border-radius: 7px;
   font-size: 16px;
+  font-weight: 700;
 }
-.tit_lecture {
-  font-weight: bold;
-  padding-bottom: 110px;
+.upload__watch {
+  background: white;
+  color: black;
+  margin: 0px 5px 0px 0px;
 }
-.upload__info-title,
-.upload__info-type,
-.upload__info-price {
+.upload__save {
+  background-color: rgb(8, 200, 88);
+}
+
+.upload__main {
   display: flex;
-  padding-bottom: 50px;
+  width: 70%;
 }
-.upload__info input,
-.lecture__type {
-  border: 1px solid;
-  border-radius: 6px;
+.upload__aside {
+  width: 23%;
 }
-.upload__info-context {
+.upload__lecture-craft {
+  display: flex;
+}
+.upload__lecture-main-view {
+  margin: 10px;
+  padding: 35px;
+  background-color: white;
+  width: 100%;
+  display: flex;
+  box-shadow: 3px 3px 3px 3px gray;
+}
+.upload__curriculum-btn {
+  width: 100%;
+  display: flex;
+  color: rgb(117, 117, 117);
+}
+
+.upload__curriculum {
+  width: 100%;
+}
+.upload__curriculum-btn-add-section {
+  margin: 0px 0px 0px 10px;
+}
+.upload__curriculum-section {
+  border: 1px solid rgb(8, 200, 88);
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+}
+.upload__curriculum-section-title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.upload__lecture-info input {
+  background-color: rgb(231, 231, 231);
+  margin: 0px 0px 20px 0px;
+  height: 35px;
+}
+.typeBtn {
+  border: 1px solid rgb(221, 221, 221);
+  margin: 5px;
+  padding: 10px;
+}
+.upload__lecture-info-lecture-title {
+  width: 45%;
+}
+
+.nextBtn {
+  display: flex;
+  justify-content: center;
+}
+.upload__lecture-info-nextBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  margin: 30px 0px 0px 0px;
+  border: 1px solid rgb(214, 214, 214);
+  padding: 10px;
+  font-weight: 800;
 }
-.upload__info-context input {
-  width: 500px;
-  height: 500px;
+.typeActive {
+  background-color: rgb(8, 200, 88);
+  color: white;
+  font-weight: 700;
 }
-.upload__info-title input {
-  width: 350px;
+.warningMessage {
+  color: red;
+  font-size: 12px;
+  margin: 0px 0px 20px 15px;
 }
-.upload__info-price input {
-  width: 110px;
+.upload__lecture-info-title {
+  margin: 0px 0px 40px 0px;
+}
+.detail-summary {
+  border: 1px solid gray;
+  width: 650px;
+  height: 80px;
+  margin: 10px 0px 30px 0px;
+}
+.detail-input {
+  border: 1px solid gray;
+  width: 650px;
+  height: 600px;
+  margin: 10px 0px 30px 0px;
+  vertical-align: top;
+}
+.upload__cover-image-notice {
+  width: 100%;
+  height: 400px;
+  background-color: rgb(180, 180, 180);
+}
+.upload__cover-image {
+  width: 100%;
 }
 </style>
