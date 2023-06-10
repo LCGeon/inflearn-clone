@@ -8,7 +8,7 @@
     @click="loginCheck"
   >
     <router-link :to="`/enrolment/${lectureItem.id}`">
-      <div v-show="lectureContext === index" class="hover__context">
+      <div v-if="lectureContext === index" class="hover__context">
         <div class="context__title">{{ lectureItem.title }}</div>
         <br />
         <div>{{ lectureItem.context }}</div>
@@ -26,7 +26,9 @@
           <span class="star-ratings-number">(5.0)</span>
         </div>
         <div class="lecture__price">
-          <span>₩{{ lectureItem.price }} </span>
+          <span
+            >₩{{ lectureItem.price ? lectureItem.price.toLocaleString() : "" }}
+          </span>
         </div>
       </div>
     </router-link>
@@ -57,6 +59,9 @@ export default {
       }
     },
     ...mapMutations("loginStore", ["loginCheck"]),
+  },
+  unmounted() {
+    this.$store.commit("setHoveredBox", null);
   },
 };
 </script>
