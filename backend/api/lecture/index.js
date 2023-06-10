@@ -1,7 +1,17 @@
 const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken');
+const utils = require('../../utils');
 const dotenv = require('dotenv');
+
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+const firebase = require('firebase/app');
+const firebaseStorage = require('firebase/storage');
+const firebaseConfig = require('../../../firebaseConfig.js');
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 dotenv.config();
 
@@ -14,6 +24,7 @@ const knex = require('knex')({
     },
     useNullAsDefault: true
 });
+const defaultStorage = firebaseStorage.getStorage(firebaseApp);
 
 app.get('/', async (req, res) => {
     const cookies = req.cookies;
@@ -58,19 +69,52 @@ app.get('/list', async (req, res) => {
     }
 });
 
-app.post('/', async (req, res) => {
-    const body = req.body;
+app.post('/', upload.fields([
+        { name: 'img', maxCount: 1 },
+    ]), async (req, res) => {
+    const fields = req.files;
+    const body = JSON.parse(JSON.stringify(req.body));
 
-    if (!body?.title || !body?.context || !body?.videoUrl || !body?.price) {
+    if (!utils.checkRequiredProperties(['title',
+                                        'category',
+                                        'level',
+                                        'context',
+                                        'price'
+                                    ], body)) {
         return res.status(400).json({ message: '제대로 보내세오' });
     }
 
-    const { title, context, videoUrl: video_url, price, imgUrl: image_url, user } = body;
+    const { title, 
+        context, 
+        price, 
+        category : category_id, 
+        level : level_id
+    } = body;
 
     try {
-        await knex('lecture').insert({ title, context, video_url, price, image_url, user });
+        const uploadPromises = Object.values(fields).map(async files => {
+            const result = await Promise.all(files.map(async file => {
+                const uploadRef = firebaseStorage.ref(defaultStorage, file.originalname);
+                await firebaseStorage.uploadBytes(uploadRef, file.buffer);
+                const downloadUrl = await firebaseStorage.getDownloadURL(uploadRef);
+                return { fieldName : file.fieldname, originalname: file.originalname, downloadUrl };
+            }));
+            return result;
+        });
+
+        const uploadResults = await Promise.all(uploadPromises);
+
+        const uploadUrls = uploadResults.reduce((uploadUrls,results) => {
+            const [first] = results;
+            uploadUrls[first.fieldName] ??= [];
+            results.forEach(result => uploadUrls[first.fieldName].push(result.downloadUrl));
+            return uploadUrls;
+        },{});
+
+        await knex('lecture').insert({ title, context, level_id, price, category_id, user : 'test', image_url : uploadUrls.img[0] });
         res.status(200).json({ isUploaded: true });
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: '통신 오류' });
     }
 });
