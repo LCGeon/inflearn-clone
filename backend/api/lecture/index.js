@@ -92,7 +92,7 @@ app.post('/', upload.fields([
     } = body;
 
     try {
-        const uploadPromises = Object.values(fields).map(async files => {
+        const uploadPromises = Object.values(fields)?.map(async files => {
             const result = await Promise.all(files.map(async file => {
                 const uploadRef = firebaseStorage.ref(defaultStorage, file.originalname);
                 await firebaseStorage.uploadBytes(uploadRef, file.buffer);
@@ -110,8 +110,9 @@ app.post('/', upload.fields([
             results.forEach(result => uploadUrls[first.fieldName].push(result.downloadUrl));
             return uploadUrls;
         },{});
+        const [imgUrl] = uploadUrls?.img || [''];
 
-        await knex('lecture').insert({ title, context, level_id, price, category_id, user : 'test', image_url : uploadUrls.img[0] });
+        await knex('lecture').insert({ title, context, level_id, price, category_id, user : 'test', image_url : imgUrl });
         res.status(200).json({ isUploaded: true });
     } catch (err) {
         console.log(err);
