@@ -17,7 +17,9 @@
         :style="accountInfoStyle"
       >
         <div class="lecture-price">
-          <h2>{{ enrolment.price }}원</h2>
+          <h2>
+            {{ enrolment.price ? enrolment.price.toLocaleString() : "" }}원
+          </h2>
           <br />
         </div>
         <div class="floating-btn">
